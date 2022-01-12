@@ -2,7 +2,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Container } from "react-bootstrap";
 import userFacade from "./auth/userFacade";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/nav/NavBar";
 import Hero from "./components/Hero";
 // PAGES:
 import HomePage from "./pages/HomePage";
@@ -42,7 +42,7 @@ export default function App() {
   }
 
   return (
-    <Container fluid="sm" className="headerMenuContent">
+    <Container fluid="sm" className="wrapper">
       <Hero />
       <NavBar loggedIn={loggedInState} user={userState} />
       <Container className="pageContent pt-3 pb-3" fluid="sm">
