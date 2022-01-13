@@ -7,15 +7,13 @@ import Hero from "./components/Hero";
 // PAGES:
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
-import WikipediaPage from "./pages/WikipediaPage";
-import DadJokePage from "./pages/DadJokePage";
-import UserPage from "./pages/UserPage";
+import ConferencesListPage from "./pages/ConferencesListPage";
+import ConferencePage from "./pages/ConferencePage";
 import AdminPage from "./pages/AdminPage";
 import NoMatchPage from "./pages/NoMatchPage";
 import LoginPage from "./pages/LoginPage";
 import LogoutPage from "./pages/LogoutPage";
 import SignupPage from "./pages/SignupPage";
-import FunStuffPage from "./pages/FunStuffPage";
 
 
 export default function App() {
@@ -36,7 +34,7 @@ export default function App() {
       .then(res => {
         setUserState(res);
         if (!loggedInState) setLoggedInState(true);
-        navigate("/user");
+        navigate("/conferences");
       });
   }
 
@@ -47,10 +45,8 @@ export default function App() {
       <Container className="pageContent pt-3 pb-3" fluid="sm">
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/wikipedia" element={<WikipediaPage />} />
-          <Route path="/dadjokes" element={<DadJokePage />} />
-          <Route path="/funstuff" element={<FunStuffPage />} />
-          <Route path="/user" element={<UserPage />} />
+          <Route path="/conferences" element={<ConferencesListPage />} />
+          <Route path="/conferences/:id" element={<ConferencePage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/login" element={<LoginPage login={loginProtocol} />} />

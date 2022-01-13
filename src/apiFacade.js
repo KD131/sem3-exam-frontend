@@ -1,20 +1,12 @@
 import { SERVER_URL } from "./settings";
 import fetchData from "./utils/fetchData";
 
-function fetchWikipedia(setArticles, mounted) {
-    fetchData(`${SERVER_URL}/api/info/sequential`, "GET", setArticles, mounted);
+function getAllConferences(setContent, mounted) {
+    fetchData(`${SERVER_URL}/api/conferences/all`, "GET", setContent, mounted, true);
 }
 
-function fetchDadJokes(setJokes, mounted) {
-    fetchData(`${SERVER_URL}/api/info/parallel`, "GET", setJokes, mounted);
-}
-
-function fetchFunStuff(setFun, mounted) {
-    fetchData(`${SERVER_URL}/api/info/jokes`, "GET", setFun, mounted);
-}
-
-function fetchUserPage(setContent, mounted) {
-    fetchData(`${SERVER_URL}/api/info/user`, "GET", setContent, mounted, true);
+function getConferenceById(setContent, mounted, id) {
+    fetchData(`${SERVER_URL}/api/conferences/id/${id}`, "GET", setContent, mounted, true);
 }
 
 function fetchAdminPage(setContent, mounted) {
@@ -22,10 +14,8 @@ function fetchAdminPage(setContent, mounted) {
 }
 
 const apiFacade = {
-    fetchWikipedia,
-    fetchDadJokes,
-    fetchFunStuff,
-    fetchUserPage,
+    getAllConferences,
+    getConferenceById,
     fetchAdminPage
 }
 
