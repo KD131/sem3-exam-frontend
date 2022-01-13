@@ -1,20 +1,19 @@
-import { useEffect, useRef, useState } from "react";
-import apiFacade from "../apiFacade";
+import { Route, Routes } from "react-router-dom";
+import ConferenceTable from "../components/admin_tables/ConferenceTable";
+import SpeakerTable from "../components/admin_tables/SpeakerTable";
+import TalkTable from "../components/admin_tables/TalkTable";
+import AdminNavBar from "../components/nav/AdminNavBar";
 
 function AdminPage() {
-    const [content, setContent] = useState();
-    const mounted = useRef(true);
-
-    useEffect(() => {
-        apiFacade.fetchAdminPage(setContent, mounted);
-        return () => mounted.current = false;
-    }, []);
 
     return (
         <div>
-            {content
-                ? <h1>{content.msg}</h1>
-                : <p>Loading...</p>}
+            <AdminNavBar />
+            <Routes>
+                <Route path="conferences" element={<ConferenceTable />} />
+                <Route path="talks" element={<TalkTable />} />
+                <Route path="speakers" element={<SpeakerTable />} />
+            </Routes>
         </div>
     );
 }

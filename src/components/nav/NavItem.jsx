@@ -8,7 +8,7 @@ export default function NavItem({ to, text }) {
     return (
         <li><NavLink
             className={isActive}
-            to={to} end>{text}</NavLink>
+            to={to}>{text}</NavLink>
         </li>
     );
 }

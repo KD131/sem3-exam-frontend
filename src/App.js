@@ -55,7 +55,7 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/conferences" element={<ConferencesListPage />} />
           <Route path="/conferences/:id" element={<ConferencePage />} />
-          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin/*" element={<AdminPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/login" element={<LoginPage login={loginProtocol} />} />
           <Route path="/logout" element={<LogoutPage logout={logoutProtocol} />} />
