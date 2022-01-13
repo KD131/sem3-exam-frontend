@@ -14,6 +14,7 @@ import AdminPage from "./pages/AdminPage";
 import NoMatchPage from "./pages/NoMatchPage";
 import LoginPage from "./pages/LoginPage";
 import LogoutPage from "./pages/LogoutPage";
+import SignupPage from "./pages/SignupPage";
 import FunStuffPage from "./pages/FunStuffPage";
 
 
@@ -24,20 +25,18 @@ export default function App() {
   const [userState, setUserState] = useState(getUser());
 
   function logoutProtocol() {
-    if (!loggedInState) return;
+    if (loggedInState) setLoggedInState(false);
     logout();
-    setLoggedInState(false);
     setUserState(null);
     navigate("/");
   }
 
   function loginProtocol(user, pass) {
-    if (loggedInState) return;
-    login(user, pass)
+    return login(user, pass)
       .then(res => {
-        setUserState(getUser())
-        setLoggedInState(true);
-        navigate("/");
+        setUserState(res);
+        if (!loggedInState) setLoggedInState(true);
+        navigate("/user");
       });
   }
 
@@ -56,6 +55,7 @@ export default function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/login" element={<LoginPage login={loginProtocol} />} />
           <Route path="/logout" element={<LogoutPage logout={logoutProtocol} />} />
+          <Route path="/signup" element={<SignupPage />} />
           <Route path="*" element={<NoMatchPage />} />
         </Routes>
       </Container>
