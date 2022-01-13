@@ -6,16 +6,17 @@ export default function tokenUtil() {
 
     function getToken() {
         const token = localStorage.getItem('jwtToken');
-        if (!token) return null;
-        const { exp } = getPayloadFromToken(token);
-        if (exp * 1000 <= Date.now()) {
-            console.log("Token expired!");
-            setToken(null);
+        if (!validateToken(token)) {
+            setToken(null); // remove invalid tokens
             return null;
-        } else {
-            console.log("Token expires in ", Math.round((exp * 1000 - Date.now()) / 1000 / 60), " min");
-            return token;
         }
+        return token;
+    }
+
+    function validateToken(token) {
+        if (!token) return false;
+        const { exp } = getPayloadFromToken(token); // expired
+        return exp > Date.now() / 1000; // seconds vs. miliseconds
     }
 
     function getPayloadFromToken(token) {
@@ -23,8 +24,7 @@ export default function tokenUtil() {
         return JSON.parse(Buffer.from(encodedPayload, 'base64'));
     }
 
-    function getUserFromToken() {
-        const token = getToken();
+    function getUserFromToken(token) {
         if (!token) return null;
         const { username, roles } = getPayloadFromToken(token);
         const rolesArray = roles.split(",");
