@@ -20,7 +20,7 @@ function ConferenceTable() {
                 <td>{name}</td>
                 <td>{location}</td>
                 <td>{capacity}</td>
-                <td>{talks.map(t => t.topic).join("<br>")}</td>
+                <td>{talks.map((t, i) => <p key={i}>{t.topic}</p>)}</td>
                 <td>{date.year}-{date.month}-{date.day}</td>
                 <td>{time.hour}:{time.minute}</td>
                 <td>
