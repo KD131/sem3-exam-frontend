@@ -25,6 +25,7 @@ function ConferencePage() {
             <ListGroupItem action onClick={() => navigate(`/talks/${id}`)}>
                 <h3>{topic}</h3>
                 <p>with {speakers.map((s, i) => [i > 0 && ", ", <Link key={s.id} to={`/speakers/${s.id}`}>{s.name}</Link>])}</p>
+                {/* BUG: The click event bubbles up and triggers the ListItem's navigate as well. */}
                 <small>{duration}</small>
             </ListGroupItem>
         )

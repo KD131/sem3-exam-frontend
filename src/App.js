@@ -34,7 +34,15 @@ export default function App() {
       .then(res => {
         setUserState(res);
         if (!loggedInState) setLoggedInState(true);
-        navigate("/conferences");
+        if (res.roles.includes("user")) {
+          navigate("/conferences");
+        }
+        else if (res.roles.includes("admin")) {
+          navigate("/admin");
+        }
+        else {
+          navigate("/");
+        }
       });
   }
 
