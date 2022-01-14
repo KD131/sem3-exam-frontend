@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import apiFacade from "../../apiFacade";
+import SpeakerModal from "./SpeakerModal";
 
 function SpeakerTable() {
     const [content, setContent] = useState();
@@ -22,8 +23,8 @@ function SpeakerTable() {
                 <td>{gender}</td>
                 <td>{talks && talks.map((t, i) => <p key={i}>{t.topic}</p>)}</td>
                 <td>
-                    <Button variant="warning" className="me-1">Edit</Button>
-                    <Button variant="danger">Delete</Button>
+                    <SpeakerModal editSpeaker={speaker} setContent={setContent} />
+                    <Button variant="danger" className="ms-1" >Delete</Button>
                 </td>
             </tr>
         )
@@ -39,7 +40,7 @@ function SpeakerTable() {
                         <th>Profession</th>
                         <th>Gender</th>
                         <th>Talks</th>
-                        <th><Button variant="success">Create</Button></th>
+                        <th><SpeakerModal setContent={setContent} /></th>
                     </tr>
                 </thead>
                 {content &&

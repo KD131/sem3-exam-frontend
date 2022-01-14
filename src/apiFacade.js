@@ -29,6 +29,10 @@ function deleteTalk(id, mounted, callback) {
     fetchData(`${SERVER_URL}/api/talks/id/${id}`, "DELETE", callback, mounted, true)
 }
 
+function createSpeaker(speaker, mounted, callback) {
+    fetchData(`${SERVER_URL}/api/speakers`, "POST", callback, mounted, true, speaker)
+}
+
 const apiFacade = {
     getAllConferences,
     getConferenceById,
@@ -36,7 +40,8 @@ const apiFacade = {
     getTalkById,
     getAllSpeakers,
     getSpeakerById,
-    deleteTalk
+    deleteTalk,
+    createSpeaker
 }
 
 export default apiFacade;
