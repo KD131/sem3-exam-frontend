@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PROJECT_NAME=startcode
+PROJECT_NAME=sem3_exam
 DROPLET_URL=kavv.dk
 DROPLET_USER=root
 
