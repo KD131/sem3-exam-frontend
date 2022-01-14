@@ -37,7 +37,7 @@ function ConferencePage() {
             <h1>{name}</h1>
             <p>{location}</p>
             <p>Capacity: {capacity}</p>
-            <p>{date.year}-{date.month}-{date.day}, {time.hour}:{time.minute}</p>
+            <p>{date}, {time}</p>
             <h2>Talks</h2>
             <ListGroup>
                 {talks.map(t => <SingleTalk key={t.id} talk={t} />)}

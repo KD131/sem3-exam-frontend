@@ -54,8 +54,8 @@ function ConferenceTable() {
                 <td>{location}</td>
                 <td>{capacity}</td>
                 <td>{talks.map((t, i) => <p key={i}>{t.topic}</p>)}</td>
-                <td>{date.year}-{date.month}-{date.day}</td>
-                <td>{time.hour}:{time.minute}</td>
+                <td>{date}</td>
+                <td>{time}</td>
                 <td>
                     <Button variant="warning" className="me-1" onClick={() => handleEdit(conference)}>Edit</Button>
                     <Button variant="danger">Delete</Button>

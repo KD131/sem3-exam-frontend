@@ -21,7 +21,7 @@ function ConferencesListPage() {
                 <h1>{name}</h1>
                 <p>{location}</p>
                 <p>Capacity: {capacity}</p>
-                <p>{date.year}-{date.month}-{date.day}, {time.hour}:{time.minute}</p>
+                <p>{date}, {time}</p>
             </ListGroupItem>
         )
     }
