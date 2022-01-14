@@ -25,13 +25,18 @@ function getSpeakerById(setContent, mounted, id) {
     fetchData(`${SERVER_URL}/api/speakers/id/${id}`, "GET", setContent, mounted, true);
 }
 
+function deleteTalk(id, mounted, callback) {
+    fetchData(`${SERVER_URL}/api/talks/id/${id}`, "DELETE", callback, mounted, true)
+}
+
 const apiFacade = {
     getAllConferences,
     getConferenceById,
     getAllTalks,
     getTalkById,
     getAllSpeakers,
-    getSpeakerById
+    getSpeakerById,
+    deleteTalk
 }
 
 export default apiFacade;

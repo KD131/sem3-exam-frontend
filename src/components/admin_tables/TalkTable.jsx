@@ -14,6 +14,12 @@ function TalkTable() {
     function SingleTalkRow({ talk }) {
         const { id, topic, duration, speakers, conference } = talk;
 
+        function deleteTalk(id) {
+            apiFacade.deleteTalk(id, mounted, () => {
+                apiFacade.getAllTalks(setContent, mounted);
+            })
+        }
+
         return (
             <tr>
                 <td>{id}</td>
@@ -23,7 +29,7 @@ function TalkTable() {
                 <td>{conference}</td>
                 <td>
                     <Button variant="warning" className="me-1">Edit</Button>
-                    <Button variant="danger">Delete</Button>
+                    <Button variant="danger" onClick={() => deleteTalk(id)}>Delete</Button>
                 </td>
             </tr>
         )
