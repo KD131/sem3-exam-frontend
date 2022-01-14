@@ -27,7 +27,9 @@ function SpeakerModal({ editSpeaker, setContent }) {
 
     const handleSubmit = () => {
         if (speaker && speaker.id) {
-            // apiFacade.updateConference();
+            apiFacade.updateSpeaker(speaker, mounted, () => {
+                apiFacade.getAllSpeakers(setContent, mounted);
+            });
         }
         else {
             apiFacade.createSpeaker(speaker, mounted, () => {
