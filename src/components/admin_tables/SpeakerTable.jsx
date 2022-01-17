@@ -43,6 +43,20 @@ function SpeakerTable() {
         }
     }
 
+    function deleteSpeaker(id) {
+        apiFacade.deleteSpeaker(id, mounted, () => {
+            apiFacade.getAllSpeakers(setContent, mounted);
+        })
+            .catch(err => {
+                if (err.status) {
+                    err.fullError.then(e => {
+                        setError(e);
+                        apiFacade.getAllSpeakers(setContent, mounted);
+                    })
+                }
+            });
+    }
+
     function SingleSpeakerRow({ speaker }) {
         const { id, name, profession, gender, talks } = speaker;
 
@@ -55,7 +69,7 @@ function SpeakerTable() {
                 <td>{talks && talks.map((t, i) => <p key={i}>{t.topic}</p>)}</td>
                 <td>
                     <SpeakerModal editSpeaker={speaker} handleSubmit={handleSubmit} />
-                    <Button variant="danger" className="ms-1">Delete</Button>
+                    <Button variant="danger" className="ms-1" onClick={() => deleteSpeaker(id)}>Delete</Button>
                 </td>
             </tr>
         )
