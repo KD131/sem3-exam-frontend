@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { Button, Form, FormControl, FormGroup, FormLabel, FormSelect, Modal } from "react-bootstrap";
-import apiFacade from "../../apiFacade";
 
-function SpeakerModal({ editSpeaker, setContent }) {
-    const [speaker, setSpeaker] = useState(editSpeaker);
+function SpeakerModal({ editSpeaker, handleSubmit }) {
+    const initSpeaker = {
+        name: "",
+        profession: "",
+        gender: "male"
+    }
+    const [speaker, setSpeaker] = useState(editSpeaker ? editSpeaker : initSpeaker);
     const mounted = useRef(true);
-
 
     const [show, setShow] = useState(false);
 
@@ -15,7 +18,7 @@ function SpeakerModal({ editSpeaker, setContent }) {
     }
 
     const handleClose = () => {
-        setSpeaker(editSpeaker);
+        setSpeaker(editSpeaker ? editSpeaker : initSpeaker);
         setShow(false);
     }
 
@@ -25,19 +28,8 @@ function SpeakerModal({ editSpeaker, setContent }) {
         setSpeaker({ ...speaker, [prop]: value })
     }
 
-    const handleSubmit = () => {
-        if (speaker && speaker.id) {
-            apiFacade.updateSpeaker(speaker, mounted, () => {
-                apiFacade.getAllSpeakers(setContent, mounted);
-            });
-        }
-        else {
-            apiFacade.createSpeaker(speaker, mounted, () => {
-                apiFacade.getAllSpeakers(setContent, mounted);
-            });
-            // technically, it's the wrong mounted.
-            // it might be better to lift handleSubmit entirely and send it down via prop.
-        }
+    const submitSpeaker = () => {
+        handleSubmit(speaker);
         handleClose();
     };
 
@@ -60,15 +52,15 @@ function SpeakerModal({ editSpeaker, setContent }) {
                         <input type="hidden" id="id" value={speaker ? speaker.id : 0} />
                         <FormGroup controlId="name" className="mb-3">
                             <FormLabel>Name</FormLabel>
-                            <FormControl type="text" onChange={handleChange} value={speaker ? speaker.name : ""} />
+                            <FormControl type="text" onChange={handleChange} value={speaker.name} />
                         </FormGroup>
                         <FormGroup controlId="profession" className="mb-3">
                             <FormLabel>Profession</FormLabel>
-                            <FormControl type="text" onChange={handleChange} value={speaker ? speaker.profession : ""} />
+                            <FormControl type="text" onChange={handleChange} value={speaker.profession} />
                         </FormGroup>
                         <FormGroup controlId="gender" className="mb-3">
                             <FormLabel>Gender</FormLabel>
-                            <FormSelect type="number" onChange={handleChange} value={speaker ? speaker.gender : ""}>
+                            <FormSelect type="number" onChange={handleChange} value={speaker.gender}>
                                 <option value="choose" disabled>Choose gender</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
@@ -83,7 +75,7 @@ function SpeakerModal({ editSpeaker, setContent }) {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleSubmit}>
+                    <Button variant="primary" onClick={submitSpeaker}>
                         Save changes
                     </Button>
                 </Modal.Footer>

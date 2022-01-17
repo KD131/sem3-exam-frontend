@@ -12,6 +12,19 @@ function SpeakerTable() {
         return () => mounted.current = false;
     }, []);
 
+    const handleSubmit = (speaker) => {
+        if (speaker && speaker.id) {
+            apiFacade.updateSpeaker(speaker, mounted, () => {
+                apiFacade.getAllSpeakers(setContent, mounted);
+            });
+        }
+        else {
+            apiFacade.createSpeaker(speaker, mounted, () => {
+                apiFacade.getAllSpeakers(setContent, mounted);
+            });
+        }
+    }
+
     function SingleSpeakerRow({ speaker }) {
         const { id, name, profession, gender, talks } = speaker;
 
@@ -23,7 +36,7 @@ function SpeakerTable() {
                 <td>{gender}</td>
                 <td>{talks && talks.map((t, i) => <p key={i}>{t.topic}</p>)}</td>
                 <td>
-                    <SpeakerModal editSpeaker={speaker} setContent={setContent} />
+                    <SpeakerModal editSpeaker={speaker} handleSubmit={handleSubmit} />
                     <Button variant="danger" className="ms-1" >Delete</Button>
                 </td>
             </tr>
@@ -40,7 +53,7 @@ function SpeakerTable() {
                         <th>Profession</th>
                         <th>Gender</th>
                         <th>Talks</th>
-                        <th><SpeakerModal setContent={setContent} /></th>
+                        <th><SpeakerModal handleSubmit={handleSubmit} /></th>
                     </tr>
                 </thead>
                 {content &&
