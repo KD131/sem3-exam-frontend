@@ -3,7 +3,7 @@ import { Button, Form, FormControl, FormGroup, FormLabel, FormSelect, Modal } fr
 
 function SpeakerModal({ editSpeaker, handleSubmit }) {
     const initSpeaker = {
-        name: null,
+        name: "",
         profession: "",
         gender: "male"
     }
@@ -48,7 +48,7 @@ function SpeakerModal({ editSpeaker, handleSubmit }) {
                         <input type="hidden" id="id" value={speaker ? speaker.id : 0} />
                         <FormGroup controlId="name" className="mb-3">
                             <FormLabel>Name</FormLabel>
-                            <FormControl type="text" onChange={handleChange} value={speaker.name} />
+                            <FormControl type="text" onChange={handleChange} value={speaker.name} required />
                         </FormGroup>
                         <FormGroup controlId="profession" className="mb-3">
                             <FormLabel>Profession</FormLabel>
