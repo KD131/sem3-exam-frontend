@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import apiFacade from "../../apiFacade";
+import ErrorModal from "../error/ErrorModal";
 import SpeakerModal from "./SpeakerModal";
 
 function SpeakerTable() {
     const [content, setContent] = useState();
+    const [error, setError] = useState();
     const mounted = useRef(true);
 
     useEffect(() => {
@@ -16,12 +18,28 @@ function SpeakerTable() {
         if (speaker && speaker.id) {
             apiFacade.updateSpeaker(speaker, mounted, () => {
                 apiFacade.getAllSpeakers(setContent, mounted);
-            });
+            })
+                .catch(err => {
+                    if (err.status) {
+                        err.fullError.then(e => {
+                            setError(e);
+                            apiFacade.getAllSpeakers(setContent, mounted);
+                        })
+                    }
+                });
         }
         else {
             apiFacade.createSpeaker(speaker, mounted, () => {
                 apiFacade.getAllSpeakers(setContent, mounted);
-            });
+            })
+                .catch(err => {
+                    if (err.status) {
+                        err.fullError.then(e => {
+                            setError(e);
+                            apiFacade.getAllSpeakers(setContent, mounted);
+                        })
+                    }
+                });
         }
     }
 
@@ -37,7 +55,7 @@ function SpeakerTable() {
                 <td>{talks && talks.map((t, i) => <p key={i}>{t.topic}</p>)}</td>
                 <td>
                     <SpeakerModal editSpeaker={speaker} handleSubmit={handleSubmit} />
-                    <Button variant="danger" className="ms-1" >Delete</Button>
+                    <Button variant="danger" className="ms-1">Delete</Button>
                 </td>
             </tr>
         )
@@ -61,6 +79,7 @@ function SpeakerTable() {
                         {content.map(s => <SingleSpeakerRow key={s.id} speaker={s} />)}
                     </tbody>}
             </Table>
+            <ErrorModal error={error} />
         </div>
     );
 }
