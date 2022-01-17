@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Button, Form, FormControl, FormGroup, FormLabel, FormSelect, Modal } from "react-bootstrap";
 
 function SpeakerModal({ editSpeaker, handleSubmit }) {
@@ -8,7 +8,6 @@ function SpeakerModal({ editSpeaker, handleSubmit }) {
         gender: "male"
     }
     const [speaker, setSpeaker] = useState(editSpeaker ? editSpeaker : initSpeaker);
-    const mounted = useRef(true);
 
     const [show, setShow] = useState(false);
 
@@ -28,14 +27,11 @@ function SpeakerModal({ editSpeaker, handleSubmit }) {
         setSpeaker({ ...speaker, [prop]: value })
     }
 
-    const submitSpeaker = () => {
+    const submitSpeaker = (evt) => {
+        evt.preventDefault();
         handleSubmit(speaker);
         handleClose();
     };
-
-    useEffect(() => {
-        return () => mounted.current = false;
-    }, []);
 
     return (
         <>
@@ -44,23 +40,23 @@ function SpeakerModal({ editSpeaker, handleSubmit }) {
                 : <Button variant="success" onClick={handleShow}>Create</Button>}
 
             <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>{speaker && speaker.id ? "Edit" : "Create"} speaker</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form>
+                <Form onSubmit={submitSpeaker}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>{speaker && speaker.id ? "Edit" : "Create"} speaker</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
                         <input type="hidden" id="id" value={speaker ? speaker.id : 0} />
                         <FormGroup controlId="name" className="mb-3">
                             <FormLabel>Name</FormLabel>
-                            <FormControl type="text" onChange={handleChange} value={speaker.name} />
+                            <FormControl type="text" onChange={handleChange} value={speaker.name} required />
                         </FormGroup>
                         <FormGroup controlId="profession" className="mb-3">
                             <FormLabel>Profession</FormLabel>
-                            <FormControl type="text" onChange={handleChange} value={speaker.profession} />
+                            <FormControl type="text" onChange={handleChange} value={speaker.profession} required />
                         </FormGroup>
                         <FormGroup controlId="gender" className="mb-3">
                             <FormLabel>Gender</FormLabel>
-                            <FormSelect type="number" onChange={handleChange} value={speaker.gender}>
+                            <FormSelect type="number" onChange={handleChange} value={speaker.gender} required>
                                 <option value="choose" disabled>Choose gender</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
@@ -69,16 +65,16 @@ function SpeakerModal({ editSpeaker, handleSubmit }) {
                             </FormSelect>
                         </FormGroup>
 
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={submitSpeaker}>
-                        Save changes
-                    </Button>
-                </Modal.Footer>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Close
+                        </Button>
+                        <Button variant="primary" type="submit">
+                            Save changes
+                        </Button>
+                    </Modal.Footer>
+                </Form>
             </Modal>
         </>
     );
